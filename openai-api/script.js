@@ -8,11 +8,19 @@ const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
-const completion = await openai.chat.completions.create({
-  model: "gpt-4",
-  messages: [
-    { role: "user", content: "Who is the father of nation in India?" },
-  ],
-});
+inquirer
+  .prompt([
+    {
+      type: "input",
+      name: "query",
+      message: "Hi, how can I help you?",
+    },
+  ])
+  .then(async (answer) => {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: answer.query }],
+    });
 
-console.log(completion.choices[0]);
+    console.log(completion.choices[0]);
+  });
