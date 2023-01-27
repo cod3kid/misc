@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import OpenAI from "openai";
+import fs from "fs";
 import { config } from "dotenv";
 
 config();
@@ -8,7 +9,15 @@ const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
+const readFromFile = () => {
+  const story = fs.readFileSync("./story.txt", "utf-8");
+
+  return story;
+};
+
 async function generateChatGPTResponse() {
+  const story = readFromFile();
+
   return inquirer
     .prompt([
       {
