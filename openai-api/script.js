@@ -18,6 +18,14 @@ const readFromFile = () => {
 async function generateChatGPTResponse() {
   const story = readFromFile();
 
+  // Create an assistant object
+  const assistant = await openai.beta.assistants.create({
+    name: "Story Questions Teller",
+    instructions: "You have to answer questions based on a story we provide.",
+    tools: [{ type: "code_interpreter" }],
+    model: "gpt-4-1106-preview",
+  });
+
   return inquirer
     .prompt([
       {
