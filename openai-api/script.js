@@ -2,6 +2,9 @@ import inquirer from "inquirer";
 import OpenAI from "openai";
 import fs from "fs";
 import { config } from "dotenv";
+import { promisify } from "util";
+
+const sleep = promisify(setTimeout);
 
 config();
 
@@ -10,14 +13,14 @@ const openai = new OpenAI({
 });
 
 const readFromFile = () => {
+  console.log("\n Reading the file...\n");
   const story = fs.readFileSync("./story.txt", "utf-8");
 
   return story;
 };
 
+const story = readFromFile();
 async function generateChatGPTResponse() {
-  const story = readFromFile();
-
   // Create an assistant object
   const assistant = await openai.beta.assistants.create({
     name: "Story Questions Teller",
@@ -25,6 +28,17 @@ async function generateChatGPTResponse() {
     tools: [{ type: "code_interpreter" }],
     model: "gpt-4-1106-preview",
   });
+
+  // Create new thread
+  const newThread = await openai.beta.threads.create();
+
+  // Ask a question
+  await openai.beta.threads.messages.create(newThread.id, {
+    role: "user",
+    content: `Could you please answer bunch of questions based on the story given below?\n\n ${story}`,
+  });
+
+  //   console.log("Thread Question ID: ", threadQuestion);
 
   return inquirer
     .prompt([
@@ -35,12 +49,42 @@ async function generateChatGPTResponse() {
       },
     ])
     .then(async (answer) => {
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [{ role: "user", content: answer.query }],
+      // Create a message based on user's question
+      const threadMessages = await openai.beta.threads.messages.create(
+        newThread.id,
+        {
+          role: "user",
+          content: answer.query,
+        }
+      );
+
+      //   console.log("Thread Message ID: ", threadMessages.id);
+
+      // run the thread
+      await openai.beta.threads.runs.create(newThread.id, {
+        assistant_id: assistant.id,
       });
 
-      console.log(completion.choices[0].message.content);
+      //   console.log("Run ID: ", runThread.id);
+
+      //   const retrieveRanThread = await openai.beta.threads.runs.retrieve(
+      //     newThread.id,
+      //     runThread.id
+      //   );
+
+      //   await openai.beta.threads.messages.retrieve(
+      //     newThread.id,
+      //     threadMessages.id
+      //   );
+      console.log("\nGenerating Content...\n");
+
+      await sleep(10000);
+
+      const messagesList = await openai.beta.threads.messages.list(
+        newThread.id
+      );
+
+      console.log("Answer: \n", messagesList.data[0].content[0].text.value);
 
       const answers = await inquirer.prompt([
         {
