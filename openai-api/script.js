@@ -4,23 +4,32 @@ import fs from "fs";
 import { config } from "dotenv";
 import { promisify } from "util";
 
-const sleep = promisify(setTimeout);
-
 config();
+const sleep = promisify(setTimeout);
+let story, file;
 
 const openai = new OpenAI({
   apiKey: process.env.OPEN_AI_API_KEY,
 });
 
-const readFromFile = () => {
+const readFromFile = (fileName) => {
   console.log("\n Reading the file...\n");
-  const story = fs.readFileSync("./story.txt", "utf-8");
+  const data = fs.readFileSync(fileName, "utf-8");
 
-  return story;
+  return data;
 };
 
-const story = readFromFile();
+const readDatabase = () => {
+  const rawData = fs.readFileSync("db.json");
+  const data = JSON.parse(rawData);
+
+  return data;
+};
+
 async function generateChatGPTResponse() {
+  // Read the database
+  const db = readDatabase();
+
   // Create an assistant object
   const assistant = await openai.beta.assistants.create({
     name: "Story Questions Teller",
@@ -38,7 +47,7 @@ async function generateChatGPTResponse() {
     content: `Could you please answer bunch of questions based on the story given below?\n\n ${story}`,
   });
 
-  //   console.log("Thread Question ID: ", threadQuestion);
+  // console.log("Thread Question ID: ", threadQuestion);
 
   return inquirer
     .prompt([
@@ -101,6 +110,16 @@ async function generateChatGPTResponse() {
 
 async function getUserInput() {
   let continueLoop = false;
+
+  file = await inquirer.prompt([
+    {
+      type: "input",
+      name: "filename",
+      message: "Please enter the file name",
+    },
+  ]);
+
+  story = readFromFile(file.filename);
 
   do {
     // Code for prompting the user to OPENAI.CHAT
