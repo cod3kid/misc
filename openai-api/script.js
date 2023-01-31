@@ -29,25 +29,31 @@ const readDatabase = () => {
 async function generateChatGPTResponse() {
   // Read the database
   const db = readDatabase();
+  const dataExist = db.find((fileData) => fileData.filename === file.filename);
+  let assistant, newThread;
 
-  // Create an assistant object
-  const assistant = await openai.beta.assistants.create({
-    name: "Story Questions Teller",
-    instructions: "You have to answer questions based on a story we provide.",
-    tools: [{ type: "code_interpreter" }],
-    model: "gpt-4-1106-preview",
-  });
+  if (!dataExist) {
+    // Creates a new assistant
+    assistant = await openai.beta.assistants.create({
+      name: "Story Questions Teller",
+      instructions: "You have to answer questions based on a story we provide.",
+      tools: [{ type: "code_interpreter" }],
+      model: "gpt-4-1106-preview",
+    });
 
-  // Create new thread
-  const newThread = await openai.beta.threads.create();
+    // Creates a new thread
+    newThread = await openai.beta.threads.create();
 
-  // Ask a question
-  await openai.beta.threads.messages.create(newThread.id, {
-    role: "user",
-    content: `Could you please answer bunch of questions based on the story given below?\n\n ${story}`,
-  });
-
-  // console.log("Thread Question ID: ", threadQuestion);
+    // Creates a new message
+    await openai.beta.threads.messages.create(newThread.id, {
+      role: "user",
+      content: `Could you please answer bunch of questions based on the story given below?\n\n ${story}`,
+    });
+  } else {
+    const { assistant_id, thread_id } = dataExist;
+    assistant = { id: assistant_id };
+    newThread = { id: thread_id };
+  }
 
   return inquirer
     .prompt([
@@ -59,32 +65,16 @@ async function generateChatGPTResponse() {
     ])
     .then(async (answer) => {
       // Create a message based on user's question
-      const threadMessages = await openai.beta.threads.messages.create(
-        newThread.id,
-        {
-          role: "user",
-          content: answer.query,
-        }
-      );
+      await openai.beta.threads.messages.create(newThread.id, {
+        role: "user",
+        content: answer.query,
+      });
 
-      //   console.log("Thread Message ID: ", threadMessages.id);
-
-      // run the thread
+      // Runs the thread
       await openai.beta.threads.runs.create(newThread.id, {
         assistant_id: assistant.id,
       });
 
-      //   console.log("Run ID: ", runThread.id);
-
-      //   const retrieveRanThread = await openai.beta.threads.runs.retrieve(
-      //     newThread.id,
-      //     runThread.id
-      //   );
-
-      //   await openai.beta.threads.messages.retrieve(
-      //     newThread.id,
-      //     threadMessages.id
-      //   );
       console.log("\nGenerating Content...\n");
 
       await sleep(10000);
@@ -94,6 +84,16 @@ async function generateChatGPTResponse() {
       );
 
       console.log("Answer: \n", messagesList.data[0].content[0].text.value);
+
+      if (!dataExist) {
+        db.push({
+          filename: file.filename,
+          thread_id: newThread.id,
+          assistant_id: assistant.id,
+        });
+
+        fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+      }
 
       const answers = await inquirer.prompt([
         {
