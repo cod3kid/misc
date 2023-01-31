@@ -1,5 +1,6 @@
 import inquirer from "inquirer";
 import OpenAI from "openai";
+import chalk from "chalk";
 import fs from "fs";
 import { config } from "dotenv";
 import { promisify } from "util";
@@ -13,7 +14,7 @@ const openai = new OpenAI({
 });
 
 const readFromFile = (fileName) => {
-  console.log("\n Reading the file...\n");
+  console.log("\n Reading the file 📖 ...\n");
   const data = fs.readFileSync(fileName, "utf-8");
 
   return data;
@@ -115,7 +116,7 @@ async function getUserInput() {
     {
       type: "input",
       name: "filename",
-      message: "Please enter the file name",
+      message: "Please enter a file name",
     },
   ]);
 
@@ -132,4 +133,5 @@ async function getUserInput() {
   } while (continueLoop);
 }
 
+console.log(chalk.blue.bold("\n\t\t\t🔵 Welcome to TextParserGPT 🔵\n"));
 getUserInput();
