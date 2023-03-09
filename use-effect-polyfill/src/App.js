@@ -1,5 +1,5 @@
 import "./styles.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCustomEffect } from "./useCustomEffect";
 
 export default function App() {
@@ -8,6 +8,10 @@ export default function App() {
   useCustomEffect(() => {
     console.log("On Mount");
   }, []);
+
+  useCustomEffect(() => {
+    console.log("On Re-render");
+  }, [counter]);
 
   return (
     <div className="App">
