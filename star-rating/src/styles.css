@@ -1,0 +1,43 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.star {
+  position: relative;
+  margin: 25px;
+}
+.star-panel {
+  display: flex;
+  flex-direction: row;
+}
+
+.start-fragment-1 {
+  position: absolute;
+  border-bottom: 30px solid gold;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+
+.start-fragment-unselected-1 {
+  position: absolute;
+  border-bottom: 30px solid grey;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+
+.start-fragment-2 {
+  position: absolute;
+  border-top: 30px solid gold;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+  top: 10px;
+}
+
+.start-fragment-unselected-2 {
+  position: absolute;
+  border-top: 30px solid grey;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+  top: 10px;
+}
