@@ -9,6 +9,7 @@ const subtractTwo = (a) => {
 const multiplyFour = (a) => {
   return a * 4;
 };
+
 const compose = (...fns) => {
   return (args) => fns.reduceRight((arg, fn) => fn(arg), args);
 };
