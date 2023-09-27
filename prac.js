@@ -1,16 +1,18 @@
-const sum = (a, b, c) => a + b + c;
-
-const curry = (fn) => {
-  return function curriedFn(...args) {
-    if (args.length === fn.length) {
-      return fn(...args);
-    }
-    return (...next) => {
-      return curriedFn(...args, ...next);
-    };
-  };
+const addFive = (a) => {
+  return a + 5;
 };
 
-const curriedSum = curry(sum);
+const subtractTwo = (a) => {
+  return a - 2;
+};
 
-console.log(curriedSum(4)(50)(20));
+const multiplyFour = (a) => {
+  return a * 4;
+};
+
+const compose = (...fns) => {
+  return (args) => fns.reduceRight((curr, fn) => fn(curr), args);
+};
+
+const composedFn = compose(addFive, subtractTwo, multiplyFour);
+console.log(composedFn(6));
