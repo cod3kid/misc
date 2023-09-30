@@ -16,6 +16,44 @@ const helloWorld = () => {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (helloWorld);
 
 
+/***/ }),
+/* 2 */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _kiwi_jpg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _kiwialt_txt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+
+
+
+const addImage = () => {
+  const img = document.createElement("img");
+  img.alt = _kiwialt_txt__WEBPACK_IMPORTED_MODULE_1__;
+  img.width = 300;
+  img.src = _kiwi_jpg__WEBPACK_IMPORTED_MODULE_0__;
+
+  const body = document.querySelector("body");
+  body.appendChild(img);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (addImage);
+
+
+/***/ }),
+/* 3 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "3f5377aaeda097562d4b.jpg";
+
+/***/ }),
+/* 4 */
+/***/ ((module) => {
+
+module.exports = "Kiwi Alt Text";
+
 /***/ })
 /******/ 	]);
 /************************************************************************/
@@ -72,15 +110,23 @@ const helloWorld = () => {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "dist/";
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hello_world__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _add_image__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+
 
 
 (0,_hello_world__WEBPACK_IMPORTED_MODULE_0__["default"])();
+(0,_add_image__WEBPACK_IMPORTED_MODULE_1__["default"])();
 
 })();
 
