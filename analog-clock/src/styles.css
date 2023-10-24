@@ -1,0 +1,15 @@
+.App {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.clock {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
