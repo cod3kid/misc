@@ -1,3 +1,8 @@
+const utilFunctions = require("./utils");
+const { splitWorkingHoursLineByLine } = utilFunctions;
+
+const workingHours = splitWorkingHoursLineByLine();
+console.log(workingHours);
 const inputString = "Itachi 7h 49m 08:59 18:06 9h 37m";
 
 const pattern =
