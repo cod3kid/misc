@@ -6,8 +6,13 @@ const workingHours = splitWorkingHoursLineByLine();
 const sheetContents = prepareSheetContents(workingHours);
 
 (async () => {
-  // load the documents info
-  await doc.loadInfo();
+  try {
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0];
+    await sheet.addRows([...sheetContents]);
 
-  console.log(doc.title);
+    console.log("Data inserted into Google Sheets!");
+  } catch (ex) {
+    console.log("Error occurred while inserting data into Google Sheets");
+  }
 })();
