@@ -1,5 +1,5 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-const { JWT, GoogleAuth } = require("google-auth-library");
+const { JWT } = require("google-auth-library");
 require("dotenv").config();
 const CREDENTIALS = require(`./${process.env.GOOGLE_PRIVATE_KEY_FILE_NAME}`);
 
