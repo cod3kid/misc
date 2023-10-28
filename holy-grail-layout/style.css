@@ -1,0 +1,44 @@
+body {
+  margin: 0px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  height: 100px;
+  background-color: lightcoral;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.sidebar-left {
+  width: 150px;
+  /* flex: 0.1; */
+  background-color: lightgoldenrodyellow;
+}
+
+.view {
+  width: 150px;
+  /* flex:0.8; */
+  flex: 1;
+  background-color: lightsalmon;
+}
+
+.sidebar-right {
+  width: 150px;
+  /* flex: 0.1; */
+  background-color: lightskyblue;
+}
+
+.footer {
+  height: 100px;
+  background-color: lightgreen;
+}
