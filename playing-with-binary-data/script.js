@@ -8,6 +8,19 @@ clickMeButton.addEventListener("click", (e) => {
   //   console.log(new Uint8Array(ab));
   //   Uint8Array(2) [ 104, 105 ]
 
+  // TypedArray
+  const data = new Uint8Array(8);
+  data.set([65, 66]);
+
+  data.set([97, 98, 99], 5);
+
+  const dataTwo = data.subarray(0, 7);
+  console.log(dataTwo.map((item) => (item > 62 && item < 90 ? 1 : 2)));
+
+  console.log(new TextDecoder().decode(dataTwo));
+
+  //Blob and File//
+
   const blob = new Blob([ab]);
   console.log(blob);
   const file = new File([ab], "dummy.txt", { type: "text/plain" });
