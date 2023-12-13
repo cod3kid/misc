@@ -82,6 +82,7 @@ const createBoard = () => {
       square.classList.add(idx % 2 === 0 ? "brown" : "beige");
     }
 
+    square.innerHTML = piece;
     chessBoard.append(square);
   });
 };
