@@ -83,6 +83,10 @@ const createBoard = () => {
     }
 
     square.innerHTML = piece;
+
+    if (idx >= 48) {
+      square.children[0].children[0].classList.add("white");
+    }
     chessBoard.append(square);
   });
 };
