@@ -8,13 +8,19 @@ const paint = () => {
   output++;
   box1.textContent = output;
 
-  console.log("Done");
   if (output < 300) {
     requestAnimationFrame(paint);
   }
 };
 
-const move = () => {
+const move = (timestamp) => {
+  if (timestamp) {
+    // High Resolution timestamp that gets passed in
+    const diff = timestamp - output;
+    console.log(diff);
+    output = timestamp;
+  }
+
   xPos += 5;
   box2.style.transform = `translateX(${xPos}px)`;
   let limit = document.body.clientWidth - 100;
