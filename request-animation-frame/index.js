@@ -14,5 +14,14 @@ const paint = () => {
   }
 };
 
-requestAnimationFrame(paint);
+const move = () => {
+  xPos += 5;
+  box2.style.transform = `translateX(${xPos}px)`;
+  let limit = document.body.clientWidth - 100;
+  if (xPos < limit) {
+    requestAnimationFrame(move);
+  }
+};
+
+requestAnimationFrame(move);
 // requestAnimationFrame will pause when the browser tab is inactive. where as setInterval doesn'nt
