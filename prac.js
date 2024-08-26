@@ -1,19 +1,43 @@
-const myPromiseAll = (promises) => {
-  const result = [];
+const inputBox = document.getElementById("text-box");
+const normalText = document.getElementById("normalText");
+const debouncedText = document.getElementById("debouncedText");
+const throttledText = document.getElementById("throttledText");
 
-  return new Promise((resolve, reject) => {
-    promises.forEach((p, index) => {
-      p.then((res) => {
-        result.push(res);
-      }).catch((err) => reject(err));
+const debounce = (fn, delay) => {
+  let timer;
 
-      if (promises.length === index + 1) {
-        resolve(result);
-      }
-    });
-  });
+  return (text) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(text);
+    }, delay);
+  };
 };
 
-myPromiseAll([Promise.resolve("Hello"), Promise.resolve("World")]).then((res) =>
-  console.log(res)
-);
+const throttle = (fn, delay) => {
+  let isThrottling = false;
+
+  return (text) => {
+    if (!isThrottling) {
+      isThrottling = true;
+      setTimeout(() => {
+        fn(text);
+        isThrottling = false;
+      }, delay);
+    }
+  };
+};
+
+const updateDebouncedText = debounce((text) => {
+  debouncedText.innerHTML = text;
+}, 1000);
+
+const updateThrottledText = throttle((text) => {
+  throttledText.innerHTML = text;
+}, 1000);
+
+inputBox.addEventListener("input", (e) => {
+  normalText.innerHTML = e.target.value;
+  updateDebouncedText(e.target.value);
+  updateThrottledText(e.target.value);
+});
