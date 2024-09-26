@@ -1,0 +1,10 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.light {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+}
