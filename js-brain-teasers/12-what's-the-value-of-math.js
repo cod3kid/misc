@@ -8,3 +8,8 @@ It converts both the numbers into binary and adds them
     ---------
        111 -> 7
 */
+
+const r = Math.random,
+  a = [(r() * 11) | 0, (r() * 11) | 0, (r() * 11) | 0];
+
+console.log(a);
