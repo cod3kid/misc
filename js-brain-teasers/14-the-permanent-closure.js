@@ -46,3 +46,23 @@ const counters2 = createCounterArray();
 counters2.forEach((counter) => counter());
 
 */
+
+/*
+If we use IIFE to create a new scope for each iteration of the loop,
+It ensures that each closure function captures its own copy of i with the correct value.
+
+function createCounterArray() {
+  const counterArray = [];
+  for (var i = 0; i < 5; i++) {
+    ((i) => {
+      counterArray.push(() => {
+        console.log(`Counter: ${i}`);
+      });
+    })(i);
+  }
+  return counterArray;
+}
+
+const counters = createCounterArray();
+counters.forEach((counter) => counter());
+*/
