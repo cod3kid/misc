@@ -4,5 +4,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
   ctx.fillStyle = "yellow";
 
-  console.log(ctx.fillStyle);
+  console.log(ctx.fillStyle); // Gets the hex code
 });
