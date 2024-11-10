@@ -6,6 +6,10 @@ console.log(state);
 /*
 The above is an alternate to the below code
 
+let state = (response === "on") ? 1 : (response === "off") ? 0 : undefined;
+
+OR
+
 let response = "on";
 let state;
 
